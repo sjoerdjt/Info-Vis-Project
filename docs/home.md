@@ -1,4 +1,4 @@
-# Jupyter Book Tutorial
+# Dit is onze website, hoi
 
 (Last updated: May 26, 2024)
 
@@ -12,6 +12,7 @@ For more advanced usage of Jupyter Book (e.g., using this special content block,
 :::
 
 ## Table of contents
+
 - [Prerequisites](#pre)
 - [Step 1: Install conda](#s1)
 - [Step 2: Install Jupyter Book](#s2)
@@ -22,6 +23,7 @@ For more advanced usage of Jupyter Book (e.g., using this special content block,
 - [Troubleshooting](#ts)
 
 ## Prerequisites
+
 <a name="pre"></a>
 
 Please make sure you have all the prerequisites ready before continuing this tutorial.
@@ -51,7 +53,7 @@ If you have not done so, check the [Jupyter website](https://jupyter.org) for ho
 
 ### Install git and Git Bash (Windows only)
 
-You need a terminal (e.g., [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) or [Zsh](https://en.wikipedia.org/wiki/Z_shell)) to work with Jupyter Book.
+You need a terminal (e.g., [Bash](<https://en.wikipedia.org/wiki/Bash_(Unix_shell)>) or [Zsh](https://en.wikipedia.org/wiki/Z_shell)) to work with Jupyter Book.
 If you are on Windows, install [the git tool](https://git-scm.com/), which comes with a terminal called `Git Bash`.
 If you are on Mac or Linux, the git tool is already installed, so you can just open the terminal and start typing commands.
 
@@ -62,6 +64,7 @@ If you are new to this idea, check [the git guide](https://github.com/git-guides
 Also, here is [a 15-minute Git tutorial video](https://www.youtube.com/watch?v=USjZcfj8yxE) that covers what you need for this course.
 
 ## Step 1: Install conda
+
 <a name="s1"></a>
 
 The first step is installing the conda virtual environment using [miniconda](https://docs.conda.io/en/main/miniconda.html) or [anaconda](https://www.anaconda.com/).
@@ -69,9 +72,11 @@ Pick either one of them and follow the instructions on the website to install co
 
 :::{important}
 If you already have `conda` installed on your machine, you can skip this step. Check your `conda` installation by running the following command:
+
 ```sh
 conda --version
 ```
+
 If `conda` is installed, you should see a printed message with the version number.
 :::
 
@@ -79,6 +84,7 @@ We recommend using miniconda since it is light-weighted, and you can avoid waiti
 If you already have the conda environment ready on your machine, you can skip this step.
 
 For Mac users, you can also install miniconda using the [Homebrew](https://brew.sh/) package manager, as documented on [this page](https://formulae.brew.sh/cask/miniconda):
+
 ```sh
 brew install --cask miniconda
 echo 'export PATH="/usr/local/Caskroom/miniconda/base/bin:$PATH"' >> ~/.bash_profile
@@ -93,6 +99,7 @@ Otherwise, your terminal will not be able to find the conda command.
 :::
 
 ## Step 2: Install Jupyter Book
+
 <a name="s2"></a>
 
 In this step, you will install the Jupyter Book package.
@@ -100,26 +107,35 @@ Notice that there are two sections in this step.
 One for Mac/Linux users, and another one for Windows users.
 
 ### For Mac and Linux to install Jupyter Book
+
 Now, create a new conda environment using the command below.
 We need to install Jupyter Book in the conda environment.
+
 ```sh
 conda create -n jupyterbook python=3.10
 ```
+
 After you have the environment ready, activate it.
+
 ```sh
 conda activate jupyterbook
 ```
+
 Finally, install the packages that are needed for building and compiling notebooks.
+
 ```sh
 pip install -U jupyter-book
 ```
+
 Check if Jupyter Book is installed correctly using the following command.
 Having no error messages means that Jupyter Book is installed correctly.
+
 ```sh
 jupyter-book --help
 ```
 
 ### For Windows to install Jupyter Book
+
 Windows has a known problem that the conda installation for Jupyter Book can be pending forever.
 We have figured out a specific solution for this.
 You need to follow the exact ordering in this part.
@@ -134,15 +150,19 @@ When you open the terminal, you should see a `(base)` text in the terminal, such
 `(base) abc@ABC-windows ~`
 
 If you did not see it, run the following:
+
 ```sh
 conda activate
 ```
+
 The above command should now brings you to the `(base)` environment in conda.
 If there is an error message, it is possible that your terminal does not recognize conda yet.
 In this case, run the following:
+
 ```sh
 conda init bash
 ```
+
 **Then, close your Git Bash and re-open it.**
 Now, you should be in the `(base)` conda environment.
 
@@ -152,38 +172,49 @@ Make sure that you close the entire terminal program and re-launch it.
 :::
 
 Next, create a new conda environment.
+
 ```sh
 conda create -n jupyterbook python=3.10
 ```
+
 After you have the environment ready, activate it.
+
 ```sh
 conda activate jupyterbook
 ```
+
 Then, install Jupyter Book using `conda install`. Do not use `pip install`, which will likely cause errors.
+
 ```sh
 conda install -c conda-forge jupyter-book
 ```
+
 This installation may take several minutes, as conda needs to solve the environment.
 So please be patient and wait until it is finished.
 
 Finally, check if Jupyter Book is installed correctly using the following command.
 Having no error messages means that Jupyter Book is installed correctly.
+
 ```sh
 jupyter-book --help
 ```
 
 ## Step 3: Create a new repository
+
 <a name="s3"></a>
 
 Next, we need to create a new repository to host your website and code using this tutorial as the template.
 Clone our tutorial repository (which downloads the code to your local machine):
+
 ```sh
 git clone https://github.com/yenchiah/jupyter-book-template
 ```
+
 The cloned tutorial repository has the template files that you need to build your website.
 We are only using the template for reference.
 
 Next, go into the template folder and delete the old `git` history from the template since we do not need them. For Mac and Linux, run the following commands:
+
 ```sh
 cd jupyter-book-template
 rm -rf .git
@@ -191,6 +222,7 @@ cd ..
 ```
 
 For Windows, we recommand using the bash terminal that comes with the git tool. If the above commands do not work, maybe you are running a different terminal system on Windows. Try the following commands instead if the above ones do not work.
+
 ```sh
 cd jupyter-book-template
 del .git
@@ -203,14 +235,17 @@ You also do not need to add the `.gitignore` file and `license`.
 
 Then, clone your newly created (and currently empty) repository to your local machine.
 Remember to use the proper account user name (i.e., replacing `MY_USER_NAME`) and repository name (i.e., replacing `MY_REPOSITORY_NAME`) in the URL that you want to clone.
+
 ```sh
 git clone https://github.com/MY_USER_NAME/MY_REPOSITORY_NAME
 
 # Below is one example of the URL
 # https://github.com/abc/example-repo
 ```
+
 Now, copy all the template files and folders from the tutorial repository to this newly created repository.
 Again, remember to use the correct repository name (i.e., replacing `MY_REPOSITORY_NAME` to your repository name).
+
 ```sh
 cp -r jupyter-book-template/* MY_REPOSITORY_NAME/
 ```
@@ -221,10 +256,12 @@ Otherwise, you will fail to copy the hidden files, such as the `.gitignore` or `
 :::
 
 ## Step 4: Build the book locally
+
 <a name="s4"></a>
 
 Now we are going to compile and build your book on your local machine.
 Inside your conda environment, we need to install some required Python packages:
+
 ```sh
 pip install -U numpy
 pip install -U plotly
@@ -232,17 +269,22 @@ pip install -U pandas
 pip install -U matplotlib
 pip install -U seaborn
 ```
+
 To build the book, run the following command.
-Remember that you must go to the repository folder  (i.e., replacing `MY_REPOSITORY_NAME`) that you just cloned.
+Remember that you must go to the repository folder (i.e., replacing `MY_REPOSITORY_NAME`) that you just cloned.
+
 ```sh
 cd MY_REPOSITORY_NAME
 jupyter-book build .
 ```
+
 The above command only builds the newly-updated files since the last time you built the book.
 Sometimes you may want to build the entire book from scratch, and you can use the following:
+
 ```sh
 jupyter-book build --all .
 ```
+
 After building the book, all the html files in the `_build/html/` directory will be updated.
 You can then use your browser to open the files locally on your machine to view the compiled notebooks and markdown files.
 You can also install a [local Apache HTTP Server](https://httpd.apache.org/) to view the files since the html files are sometimes incorrectly displayed if opened using a browser.
@@ -252,6 +294,7 @@ You need to edit the `_config.yml` file to make it suitable for your use case.
 For more information about how to edit them, check [this documentation](https://jupyterbook.org/en/stable/start/create.html).
 
 ## Step 5: Deploy the book online
+
 <a name="s5"></a>
 
 Now, we have the compiled website files ready, and we can move on to deploy the website.
@@ -259,26 +302,35 @@ We will do this using the [GitHub Pages](https://pages.github.com).
 
 First, go to the repository folder on your computer and use `git add` to indicate that you want to push these files to the remote GitHub repository.
 Replace `MY_REPOSITORY_NAME` with your repository name.
+
 ```sh
 cd MY_REPOSITORY_NAME
 git add .
 ```
+
 Run the following to check if you add the files.
 You should see green marked messages in the terminal.
+
 ```sh
 git status
 ```
+
 Then, commit the changes that you want to make using a message.
+
 ```sh
 git commit -m "Add my first book!"
 ```
+
 Next, push your code and files on your local machine to your remote repository.
+
 ```sh
 git push
 ```
+
 The above commands push your code to the main branch.
 However, we need to use the [ghp-import](https://github.com/c-w/ghp-import) package to push your website code to a separate branch.
 To use the package, run the following to install it:
+
 ```sh
 # For Mac and Linux users
 pip install -U ghp-import
@@ -286,7 +338,9 @@ pip install -U ghp-import
 # For Windows users
 conda install -c conda-forge ghp-import
 ```
+
 Then, run the following command to push your html files to the `gh-pages` branch.
+
 ```sh
 ghp-import -n -p -f _build/html
 ```
@@ -304,6 +358,7 @@ You now have the public URL for your website.
 More information about how to publish your book can be found on [this documentation](https://jupyterbook.org/en/stable/start/publish.html).
 
 ## Update the website content
+
 <a name="update"></a>
 
 After completing all the above steps, you should now have a remote repository on GitHub and a local repository on your computer.
@@ -323,6 +378,7 @@ To update the content of your website, **repeat step 4 and 5 without the package
 Step 4 will rebuild the book, which means compiling/translating the notebook and markdown files into HTML/CSS/JavaScript files.
 Step 5 will push your new content to the GitHub repository and update the online content of your website.
 We provide the example terminal commands below:
+
 ```sh
 jupyter-book build --all .
 git status
@@ -349,6 +405,7 @@ If you have multiple notebook files that you want to add to the website, you wil
 Check [this Jupyter Book documentation](https://jupyterbook.org/en/stable/basics/organize.html) about how to edit the table of content.
 
 ## Troubleshooting
+
 <a name="ts"></a>
 
 Below we list some common errors and possible solutions.
@@ -357,20 +414,24 @@ You can copy/paste the error message in the search query.
 You may be able to find solutions on Stack Overflow or other people's blogs.
 
 Q1: I get errors when running the `jupyter-book build` command. What should I do?
+
 - It is possible that your packages in the conda environment are too old. Try upgrading your conda environment and also the Python packages in the environment.
 - If there are still errors, create a new conda environment and use a different way to install Jupyter Book. For example, if you used `pip install`, try using `conda install` instead.
 - Check if you use some packages that you did not install in your `jupyterbook` conda environment. Install the missing packages.
 
 Q2: I get errors after running the `ghp-import` or `git push` commands after entering my personal access token. What should I do?
+
 - Check if your personal access token has expired on GitHub. You can create a new token and give it a longer expiration time.
 - Try to create a new personal access token on GitHub and give it the permissions/scopes of editing repositories. The token that you created may have the wrong permissions/scopes, so you cannot push changes to GitHub.
 - Check if there are messages in your terminal that tell you to do something. For example, you may be asked to add the URL to your repository by using `git remote add`. Or you may be asked to run a different `git push` command.
 
 Q3: My Jupyter Book installation is still pending forever after following step 2. What should I do?
+
 - Try using a different terminal for installation, such as the Anaconda command prompt.
 - Try closing the entire terminal program and re-run step 2 again. Do not skip any commands.
 
 Q4: I followed all the steps but my webpage does not have anything, or my webpage is not updated. What should I do?
+
 - Check if your repository has the (updated) content. You may fail to push the code correctly to the GitHub repository. You can check this by using `git status`, which should indicate that you have no pending changes.
 - Sometimes it will take a while for GitHub to update your page. Give it some time and check later. You can go to the "Actions" page in your GitHub repository to check the status.
 - Your browser may have an old cache that does not reflect new changes. Search online about how to clear your browser cache. After cleaning the cache, check the website again.
