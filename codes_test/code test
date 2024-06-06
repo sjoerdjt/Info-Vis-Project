@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Laad de dataset
-atp_data = pd.read_csv('/mnt/data/atp_matches_till_2022.csv')
+atp_data = pd.read_csv('datasets/ATP - Sheet1.csv')
 
 # Verwijder rijen met ontbrekende waarden in relevante kolommen
 atp_data_clean = atp_data.dropna(subset=['surface', 'winner_name', 'loser_name'])
