@@ -1,10 +1,10 @@
 import pandas as pd
 
 # Load the ATP data
-atp_data = pd.read_csv('cleaned_ATP_Men.csv')
+atp_data = pd.read_csv('cleaned_datasets/cleaned_ATP_Men.csv')
 
 # Load the WTA data
-wta_data = pd.read_csv('cleaned_ATP_Men.csv')
+wta_data = pd.read_csv('cleaned_datasets/cleaned_ATP_Men.csv')
 
 # Drop rows with missing values in age columns
 atp_data_cleaned = atp_data.dropna(subset=['winner_age', 'loser_age'])

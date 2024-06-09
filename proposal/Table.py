@@ -1,10 +1,10 @@
 import pandas as pd
 
 # Load the ATP data
-atp_data = pd.read_csv('cleaned_ATP_Men.csv')
+atp_data = pd.read_csv('cleaned_datasets/cleaned_ATP_Men.csv')
 
 # Load the WTA data
-wta_data = pd.read_csv('cleaned_WTA_Women.csv')
+wta_data = pd.read_csv('cleaned_datasets/cleaned_WTA_Women.csv')
 
 # Inspect the first few rows of both datasets
 print("ATP Data:")
