@@ -26,7 +26,7 @@ For more advanced usage of Jupyter Book (e.g., using this special content block,
 
 <a name="pre"></a>
 
-Please make sure you have all the prerequisites ready before continuing this tutorial.
+Dit heb ik dus aangepast hallo
 
 ### Register a GitHub account
 
