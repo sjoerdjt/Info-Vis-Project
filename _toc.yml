@@ -2,9 +2,13 @@
 # Learn more at https://jupyterbook.org/customize/toc.html
 
 format: jb-book
-root: docs/introduction
+root: docs/introduction.md
 chapters:
-  - file: docs/dataset-preprosessing
-  - file: notebooks/start-story
-  - file: docs/reflection
-  - file: docs/work-distibution
+  - file: docs/dataset-preprosessing.md
+    title: Dataset Preprocessing
+  - file: notebooks/start-story.ipynb
+    title: Start Story
+  - file: docs/reflection.md
+    title: Reflection
+  - file: docs/work-distibution.md
+    title: Work Distribution
