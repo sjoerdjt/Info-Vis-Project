@@ -1,6 +1,6 @@
 # Introductie
 
-(Last updated: Heute)
+
 
 In het rijk van codes en digitale dromen,
 Waar ontwikkelaars hun creaties laten stromen,
