@@ -2,7 +2,7 @@
 # Learn more at https://jupyterbook.org/customize/toc.html
 
 format: jb-book
-root: index
+root: docs/introduction.md
 chapters:
   - caption: "Data Processing"
     chapters:
