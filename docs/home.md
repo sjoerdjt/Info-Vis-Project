@@ -1,6 +1,6 @@
 # Dit is onze website, hoi
 
-(Last updated: May 26, 2024)
+(Last updated: Heute)
 
 In this tutorial, we will teach you how to create a Jupyter book and deploy it online.
 This page is written in markdown, which also serves as an example.
