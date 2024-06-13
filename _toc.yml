@@ -9,7 +9,7 @@ chapters:
       - file: docs/dataset-preprocessing.md
         title: "Dataset Preprocessing"
       - file: docs/reflection.md
-        title: "Reflection"
+        title: "Reflectie"
   - caption: "Analysis"
     chapters:
       - file: notebooks/start-story.ipynb
