@@ -1,6 +1,6 @@
 # Dit is onze website, hoi
 
-(Last updated: May 26, 2024)
+(Last updated: Heute)
 
 In this tutorial, we will teach you how to create a Jupyter book and deploy it online.
 This page is written in markdown, which also serves as an example.
@@ -21,6 +21,7 @@ For more advanced usage of Jupyter Book (e.g., using this special content block,
 - [Step 5: Deploy the book online](#s5)
 - [Update the website content](#update)
 - [Troubleshooting](#ts)
+- [jojojojjoojojojofsjdoifjsf](#jojo)
 
 ## Prerequisites
 
@@ -435,3 +436,9 @@ Q4: I followed all the steps but my webpage does not have anything, or my webpag
 - Check if your repository has the (updated) content. You may fail to push the code correctly to the GitHub repository. You can check this by using `git status`, which should indicate that you have no pending changes.
 - Sometimes it will take a while for GitHub to update your page. Give it some time and check later. You can go to the "Actions" page in your GitHub repository to check the status.
 - Your browser may have an old cache that does not reflect new changes. Search online about how to clear your browser cache. After cleaning the cache, check the website again.
+
+## jojo of iets anders
+
+<a name="jojo"></a>
+
+dit is tekst over jojojojo
