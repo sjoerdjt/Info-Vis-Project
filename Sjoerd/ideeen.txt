@@ -1,0 +1,17 @@
+Lichamelijke kenmerken:
+
+- Het aantal procent van de wedstrijden dat gewonnen is van een rechtshandige man/vrouw vs. linkshandige man/vrouw in een boxplot.
+- Een curve waarbij er een piek is bij een optinmale leeftijd waabij de meeste wedstrijden gewonnen worden, wederom vrouwen vs mannen. 2X curve tekenen met andere kleuren voor man en vrouw.
+- De ranking van een persoon vergelijken met of deze persoon dan juist wel of niet vaak een wedstrijd wint. 
+- Lengte van een speler icm met het winnen van een wedstrijd wederom met mannen en vrouwen in eenzelfde plot.
+- Verschillende afkomsten van spelers bekijken en dan kijken of spelers uit een bepaald land over het algemeen vaker winnen.
+
+Trainbaar:
+
+- De relatie tussen het aantal aces en het aantal dubbele fouten kan gevisualiseerd worden aan de hand van een scatterplot. Eventueel kijken of een wedstrijd vaker gewonnen wordt op het moment 
+dat er meer aces geslagen worden of juist meer dubbele fouten.
+- Serve percent(svpt) (ligt wel dichtbij de hierboven beschreven tekst)
+- Aantal breakpoints gered icm met winds wedstrijd. Dit valt mentaal gezien te trainen dus daar dan op gooien.
+- ........
+- ........
+
