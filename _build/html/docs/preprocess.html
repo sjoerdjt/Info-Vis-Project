@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Data Preprocessing &#8212; Data Story Project</title>
+    <title>Data Preprocessing &#8212; De wetenschap achter het winnen van een tenniswedstrijd</title>
   
   
   
@@ -147,7 +147,7 @@
   
   
   
-    <p class="title logo__title">Data Story Project</p>
+    <p class="title logo__title">De wetenschap achter het winnen van een tenniswedstrijd</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -403,32 +403,122 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="data-preprocessing">
 <h1>Data Preprocessing<a class="headerlink" href="#data-preprocessing" title="Link to this heading">#</a></h1>
-<p>Student names: FIRST_STUDENT, SECOND_STUDENT, THIRD_STUDENT, FORTH_STUDENT</p>
-<p>Team number: YOUR_REGISTERED_TEAM_NUMBER_ON_CANVAS</p>
-<p>The following code is used to preprocess the datasets into files that are used for the data story.</p>
+<p>De volgende code is gebruikt om de datasets op te schonen, te filteren en samen te voegen.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Step 1: Import necessary libraries</span>
-<span class="c1"># import pandas as pd</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="c1"># Step 2: Load and filter the datasets</span>
-<span class="c1"># data1 = load_dataset(&quot;path_to_dataset1.csv&quot;)</span>
-<span class="c1"># filtered_data1 = filer_data1(data1)</span>
-<span class="c1"># data2 = load_dataset(&quot;path_to_dataset2.csv&quot;)</span>
-<span class="c1"># filtered_data2 = filer_data2(data2)</span>
+<span class="c1"># Laad de datasets</span>
+<span class="n">atp_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;original_datasets/ATP_Men - Sheet1.csv&#39;</span><span class="p">)</span>
+<span class="n">wta_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;original_datasets/wta_matches_2022.csv&#39;</span><span class="p">)</span>
 
-<span class="c1"># Step 3: Merge datasets</span>
-<span class="c1"># merged_data = merge_datasets(filtered_data1, filtered_data2)</span>
+<span class="c1"># Functie om de nodige bewerkingen op elke dataset uit te voeren</span>
+<span class="k">def</span> <span class="nf">preprocess_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">gender</span><span class="p">):</span>
+    <span class="c1"># Verwijderen van kolommen die van belang zijn (alleen wanneer ze data missen)</span>
+    <span class="n">columns_to_drop</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;winner_entry&#39;</span><span class="p">,</span> <span class="s1">&#39;loser_entry&#39;</span><span class="p">,</span> <span class="s1">&#39;winner_seed&#39;</span><span class="p">,</span> <span class="s1">&#39;loser_seed&#39;</span><span class="p">]</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">columns_to_drop</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># Omzetten van tourney_date naar datetime</span>
+    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;tourney_date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;tourney_date&#39;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># Verwijderen van rijen met ontbrekende &#39;winner_age&#39;, &#39;loser_age&#39;, &#39;winner_ht&#39; of &#39;loser_ht&#39;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;winner_age&#39;</span><span class="p">,</span> <span class="s1">&#39;loser_age&#39;</span><span class="p">,</span> <span class="s1">&#39;winner_ht&#39;</span><span class="p">,</span> <span class="s1">&#39;loser_ht&#39;</span><span class="p">])</span>
+    
+    <span class="c1"># Controleren of de leeftijdskolommen van het type object zijn en vervangen van komma&#39;s door punten</span>
+    <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;winner_age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="nb">object</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;winner_age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;winner_age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;loser_age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="nb">object</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;loser_age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;loser_age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">))</span>
+    
+    <span class="c1"># Als de kolommen al numeriek zijn</span>
+    <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;winner_age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="nb">object</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;winner_age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;winner_age&#39;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;loser_age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="nb">object</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;loser_age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;loser_age&#39;</span><span class="p">])</span>
+    
+    <span class="c1"># Toevoegen van de &#39;gender&#39; kolom zodat datasets gecombineerd kunnen worden</span>
+    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;gender&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gender</span>
+    
+    <span class="k">return</span> <span class="n">data</span>
 
-<span class="c1"># Step 4: Process the data for visualizations</span>
-<span class="c1"># first_result_for_vis = process_first_result(filtered_data1)</span>
-<span class="c1"># second_result_for_vis = process_second_result(filtered_data2)</span>
-<span class="c1"># third_result_for_vis = process_third_result(merged_data)</span>
+<span class="c1"># Toepassen van de functie op beide datasets</span>
+<span class="n">atp_data_cleaned</span> <span class="o">=</span> <span class="n">preprocess_data</span><span class="p">(</span><span class="n">atp_data</span><span class="p">,</span> <span class="s1">&#39;Men&#39;</span><span class="p">)</span>
+<span class="n">wta_data_cleaned</span> <span class="o">=</span> <span class="n">preprocess_data</span><span class="p">(</span><span class="n">wta_data</span><span class="p">,</span> <span class="s1">&#39;Women&#39;</span><span class="p">)</span>
 
-<span class="c1"># Step 5: Save the results into files</span>
-<span class="c1"># save_to_file(first_result_for_vis, &quot;table1.csv&quot;)</span>
-<span class="c1"># save_to_file(second_result_for_vis, &quot;table2.csv&quot;)</span>
-<span class="c1"># save_to_file(third_result_for_vis, &quot;table3.csv&quot;)</span>
+<span class="c1"># Combineren van de datasets</span>
+<span class="n">combined_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">atp_data_cleaned</span><span class="p">,</span> <span class="n">wta_data_cleaned</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Opslaan van de gecombineerde dataset</span>
+<span class="n">combined_data</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;cleaned_datasets/combined_cleaned_tennis_data.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="c1"># Laad de datasets</span>
+<span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">atp_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;original_datasets/ATP_Men - Sheet1.csv&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">wta_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;original_datasets/wta_matches_2022.csv&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="c1"># Functie om de nodige bewerkingen op elke dataset uit te voeren</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/pandas/io/parsers/readers.py:1026,</span> in <span class="ni">read_csv</span><span class="nt">(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, date_format, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options, dtype_backend)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1013</span> <span class="n">kwds_defaults</span> <span class="o">=</span> <span class="n">_refine_defaults_read</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1014</span>     <span class="n">dialect</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1015</span>     <span class="n">delimiter</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1022</span>     <span class="n">dtype_backend</span><span class="o">=</span><span class="n">dtype_backend</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1023</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1024</span> <span class="n">kwds</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwds_defaults</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1026</span> <span class="k">return</span> <span class="n">_read</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/pandas/io/parsers/readers.py:620,</span> in <span class="ni">_read</span><span class="nt">(filepath_or_buffer, kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">617</span> <span class="n">_validate_names</span><span class="p">(</span><span class="n">kwds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;names&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">619</span> <span class="c1"># Create the parser.</span>
+<span class="ne">--&gt; </span><span class="mi">620</span> <span class="n">parser</span> <span class="o">=</span> <span class="n">TextFileReader</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">622</span> <span class="k">if</span> <span class="n">chunksize</span> <span class="ow">or</span> <span class="n">iterator</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">623</span>     <span class="k">return</span> <span class="n">parser</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/pandas/io/parsers/readers.py:1620,</span> in <span class="ni">TextFileReader.__init__</span><span class="nt">(self, f, engine, **kwds)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1617</span>     <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwds</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1619</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="p">:</span> <span class="n">IOHandles</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="ne">-&gt; </span><span class="mi">1620</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_engine</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/pandas/io/parsers/readers.py:1880,</span> in <span class="ni">TextFileReader._make_engine</span><span class="nt">(self, f, engine)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1878</span>     <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mode</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1879</span>         <span class="n">mode</span> <span class="o">+=</span> <span class="s2">&quot;b&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">1880</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="o">=</span> <span class="n">get_handle</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1881</span>     <span class="n">f</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1882</span>     <span class="n">mode</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1883</span>     <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1884</span>     <span class="n">compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compression&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1885</span>     <span class="n">memory_map</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;memory_map&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1886</span>     <span class="n">is_text</span><span class="o">=</span><span class="n">is_text</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1887</span>     <span class="n">errors</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding_errors&quot;</span><span class="p">,</span> <span class="s2">&quot;strict&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1888</span>     <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storage_options&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1889</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1890</span> <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="g g-Whitespace">   </span><span class="mi">1891</span> <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="o">.</span><span class="n">handle</span>
+
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/pandas/io/common.py:873,</span> in <span class="ni">get_handle</span><span class="nt">(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)</span>
+<span class="g g-Whitespace">    </span><span class="mi">868</span> <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">869</span>     <span class="c1"># Check whether the filename is to be opened in binary mode.</span>
+<span class="g g-Whitespace">    </span><span class="mi">870</span>     <span class="c1"># Binary mode does not support &#39;encoding&#39; and &#39;newline&#39;.</span>
+<span class="g g-Whitespace">    </span><span class="mi">871</span>     <span class="k">if</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span> <span class="ow">and</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">872</span>         <span class="c1"># Encoding</span>
+<span class="ne">--&gt; </span><span class="mi">873</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">874</span>             <span class="n">handle</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">875</span>             <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">876</span>             <span class="n">encoding</span><span class="o">=</span><span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">877</span>             <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">878</span>             <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">879</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">880</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">881</span>         <span class="c1"># Binary mode</span>
+<span class="g g-Whitespace">    </span><span class="mi">882</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;original_datasets/ATP_Men - Sheet1.csv&#39;
 </pre></div>
 </div>
 </div>
@@ -490,7 +580,7 @@ document.write(`
   <div class="footer-item">
     
 <p class="component-author">
-By Your Team Number
+By G1
 </p>
 
   </div>
