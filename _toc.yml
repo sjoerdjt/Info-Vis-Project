@@ -4,4 +4,4 @@
 format: jb-book
 root: docs/format
 chapters:
-  - file: notebooks/preprocess
+  - file: docs/preprocess
