@@ -2,7 +2,7 @@
 # Learn more at https://jupyterbook.org/customize/config.html
 
 title: De wetenschap achter het winnen van een tenniswedstrijd # Change this to your book title.
-author: G1 # Change this to your name (or your team/organization name).
+author: Groep G3 # Change this to your name (or your team/organization name).
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
