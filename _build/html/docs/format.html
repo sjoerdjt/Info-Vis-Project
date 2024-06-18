@@ -445,6 +445,28 @@ document.write(`
 <h1>Tennistoppers (Nog aanpassen)<a class="headerlink" href="#tennistoppers-nog-aanpassen" title="Link to this heading">#</a></h1>
 <p>Studenten: Robin Flier, Casper Smeets, Sjoerd Takken, Jip Voshol</p>
 <p>Team nummer: G3</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Voer het pad naar je afbeelding in</span>
+<span class="n">image_path</span> <span class="o">=</span> <span class="s1">&#39;../images/tennisveld.jpg&#39;</span>
+
+<span class="c1"># Open de afbeelding met Pillow</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
+
+<span class="c1"># Gebruik matplotlib om de afbeelding te tonen</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>  <span class="c1"># Verberg de assen</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/716db90fa6d92541d2bb5800459dc05922323733b861105997f3dac775e1b177.png" src="../_images/716db90fa6d92541d2bb5800459dc05922323733b861105997f3dac775e1b177.png" />
+</div>
+</div>
 <section id="introductie">
 <h2>Introductie<a class="headerlink" href="#introductie" title="Link to this heading">#</a></h2>
 <p>In de wereld van tennis wordt succes vaak afgemeten aan overwinningen en prestaties op het veld. De weg naar een overwinning is echter een complexe mix van zowel aangeboren als aangeleerde eigenschappen. Tennis, een sport waarbij zowel fysieke bekwaamheid als mentale weerbaarheid centraal staan, biedt een rijke dataset om te onderzoeken welke factoren de uitkomsten van wedstrijden beïnvloeden. Dit project verdeelt deze factoren in twee categorieën: aangeboren eigenschappen en aangeleerde vaardigheden.</p>
