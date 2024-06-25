@@ -466,12 +466,12 @@ document.write(`
 <span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="c1"># Gebruik matplotlib om de afbeelding te tonen</span>
 <span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
 
-<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/PIL/Image.py:3247,</span> in <span class="ni">open</span><span class="nt">(fp, mode, formats)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3244</span>     <span class="n">filename</span> <span class="o">=</span> <span class="n">fp</span>
-<span class="g g-Whitespace">   </span><span class="mi">3246</span> <span class="k">if</span> <span class="n">filename</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">3247</span>     <span class="n">fp</span> <span class="o">=</span> <span class="n">builtins</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3248</span>     <span class="n">exclusive_fp</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="g g-Whitespace">   </span><span class="mi">3250</span> <span class="k">try</span><span class="p">:</span>
+<span class="nn">File /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/PIL/Image.py:3243,</span> in <span class="ni">open</span><span class="nt">(fp, mode, formats)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3240</span>     <span class="n">filename</span> <span class="o">=</span> <span class="n">fp</span>
+<span class="g g-Whitespace">   </span><span class="mi">3242</span> <span class="k">if</span> <span class="n">filename</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">3243</span>     <span class="n">fp</span> <span class="o">=</span> <span class="n">builtins</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3244</span>     <span class="n">exclusive_fp</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="g g-Whitespace">   </span><span class="mi">3246</span> <span class="k">try</span><span class="p">:</span>
 
 <span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;../images/tennisveld.jpg&#39;
 </pre></div>
@@ -1134,6 +1134,188 @@ in heel veel gevallen ook leidt tot een laag aantal dubbele fouten. De meest voo
 <blockquote>
 <div><p><em>Table 1: Usage of generative AI to facilitate the creation of this document.</em></p>
 </div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+
+<span class="c1"># Laad de dataset</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;combined_cleaned_tennis_data.csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># Controleer op ontbrekende waarden in de kolommen &#39;winner_ht&#39; en &#39;loser_ht&#39;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;winner_ht&#39;</span><span class="p">,</span> <span class="s1">&#39;loser_ht&#39;</span><span class="p">])</span>
+
+<span class="c1"># Combineer de lengtekolommen voor winnaars en verliezers en voeg een kolom voor geslacht en resultaat toe</span>
+<span class="n">winner_heights</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;winner_ht&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;winner_ht&#39;</span><span class="p">:</span> <span class="s1">&#39;height&#39;</span><span class="p">})</span>
+<span class="n">winner_heights</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;win&#39;</span>
+
+<span class="n">loser_heights</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;loser_ht&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;loser_ht&#39;</span><span class="p">:</span> <span class="s1">&#39;height&#39;</span><span class="p">})</span>
+<span class="n">loser_heights</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;loss&#39;</span>
+
+<span class="c1"># Combineer de twee dataframes</span>
+<span class="n">heights_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">winner_heights</span><span class="p">,</span> <span class="n">loser_heights</span><span class="p">])</span>
+
+<span class="c1"># Definieer lengtegroepen</span>
+<span class="n">height_bins</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">210</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># Van 150cm tot 210cm met stappen van 5cm</span>
+<span class="n">heights_df</span><span class="p">[</span><span class="s1">&#39;height_group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">heights_df</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">height_bins</span><span class="p">)</span>
+
+<span class="c1"># Bereken de winstpercentages per lengtegroep en geslacht</span>
+<span class="n">win_loss_counts</span> <span class="o">=</span> <span class="n">heights_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;height_group&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;result&#39;</span><span class="p">],</span> <span class="n">observed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">win_loss_counts</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">win_loss_counts</span><span class="p">[</span><span class="s1">&#39;win&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">win_loss_counts</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">]</span>
+<span class="n">win_loss_counts</span><span class="p">[</span><span class="s1">&#39;win_percentage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">win_loss_counts</span><span class="p">[</span><span class="s1">&#39;win&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">win_loss_counts</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="c1"># Reset index en converteer height_group naar string</span>
+<span class="n">win_loss_counts</span> <span class="o">=</span> <span class="n">win_loss_counts</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">win_loss_counts</span><span class="p">[</span><span class="s1">&#39;height_group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">win_loss_counts</span><span class="p">[</span><span class="s1">&#39;height_group&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+
+<span class="c1"># Controleer op ontbrekende waarden in win_percentage</span>
+<span class="n">win_loss_counts</span><span class="p">[</span><span class="s1">&#39;win_percentage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">win_loss_counts</span><span class="p">[</span><span class="s1">&#39;win_percentage&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Verwijder eventuele ontbrekende waarden in de kolommen &#39;height_group&#39; en &#39;gender&#39; in heights_df</span>
+<span class="n">heights_df</span> <span class="o">=</span> <span class="n">heights_df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;height_group&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">])</span>
+
+<span class="c1"># Zorg ervoor dat height_group als string wordt behandeld in heights_df</span>
+<span class="n">heights_df</span><span class="p">[</span><span class="s1">&#39;height_group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">heights_df</span><span class="p">[</span><span class="s1">&#39;height_group&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+
+<span class="c1"># Maak een nieuwe DataFrame voor de gecombineerde visualisatie</span>
+<span class="n">combined_df</span> <span class="o">=</span> <span class="n">heights_df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">win_loss_counts</span><span class="p">[[</span><span class="s1">&#39;height_group&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;win_percentage&#39;</span><span class="p">]],</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;height_group&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot de gecombineerde grafiek</span>
+<span class="n">px</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="c1"># Kleurenpalet aanpassen voor KDE plot</span>
+<span class="n">palette</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Men&#39;</span><span class="p">:</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;Women&#39;</span><span class="p">:</span> <span class="s1">&#39;pink&#39;</span><span class="p">}</span>
+
+<span class="c1"># KDE plot voor lengteverdeling</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">combined_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="n">common_norm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c1"># Lijnplot voor winstpercentages met opvulling</span>
+<span class="k">for</span> <span class="n">gender</span> <span class="ow">in</span> <span class="n">win_loss_counts</span><span class="p">[</span><span class="s1">&#39;gender&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+    <span class="n">gender_data</span> <span class="o">=</span> <span class="n">win_loss_counts</span><span class="p">[</span><span class="n">win_loss_counts</span><span class="p">[</span><span class="s1">&#39;gender&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">gender</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">gender_data</span><span class="p">[</span><span class="s1">&#39;height_group&#39;</span><span class="p">],</span> <span class="n">gender_data</span><span class="p">[</span><span class="s1">&#39;win_percentage&#39;</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">palette</span><span class="p">[</span><span class="n">gender</span><span class="p">])</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">gender_data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;height_group&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;win_percentage&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">gender</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">palette</span><span class="p">[</span><span class="n">gender</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Distributie van Lengte en Winstpercentage per Lengtegroep en Geslacht&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Lengte (cm)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Dichtheid / Winstpercentage (%)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>  <span class="c1"># Aangepast bereik van de y-as</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Geslacht&#39;</span><span class="p">,</span> <span class="n">title_fontsize</span><span class="o">=</span><span class="s1">&#39;13&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="s1">&#39;11&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">sjoerdjt</span><span class="o">/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">studies</span><span class="o">/</span><span class="n">Kunstmatige</span> <span class="n">intelligentie</span> <span class="n">UvA</span><span class="o">/</span><span class="n">P6</span><span class="o">/</span><span class="n">project</span> <span class="nb">map</span><span class="o">/</span><span class="n">Info</span><span class="o">-</span><span class="n">Vis</span><span class="o">-</span><span class="n">Project</span><span class="o">/</span><span class="n">format_copy_20juni</span><span class="o">.</span><span class="n">ipynb</span> <span class="n">Cell</span> <span class="mi">52</span> <span class="n">line</span> <span class="mi">4</span>
+     <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s1">&#39;vscode-notebook-cell:/Users/sjoerdjt/Desktop/studies/Kunstmatige</span><span class="si">%20i</span><span class="s1">ntelligentie%20UvA/P6/project%20map/Info-Vis-Project/format_copy_20juni.ipynb#Y103sZmlsZQ%3D%3D?line=45&#39;</span><span class="o">&gt;</span><span class="mi">46</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span> <span class="n">combined_df</span> <span class="o">=</span> <span class="n">heights_df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">win_loss_counts</span><span class="p">[[</span><span class="s1">&#39;height_group&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;win_percentage&#39;</span><span class="p">]],</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;height_group&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+     <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s1">&#39;vscode-notebook-cell:/Users/sjoerdjt/Desktop/studies/Kunstmatige</span><span class="si">%20i</span><span class="s1">ntelligentie%20UvA/P6/project%20map/Info-Vis-Project/format_copy_20juni.ipynb#Y103sZmlsZQ%3D%3D?line=47&#39;</span><span class="o">&gt;</span><span class="mi">48</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span> <span class="c1"># Plot de gecombineerde grafiek</span>
+<span class="o">---&gt;</span> <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s1">&#39;vscode-notebook-cell:/Users/sjoerdjt/Desktop/studies/Kunstmatige</span><span class="si">%20i</span><span class="s1">ntelligentie%20UvA/P6/project%20map/Info-Vis-Project/format_copy_20juni.ipynb#Y103sZmlsZQ%3D%3D?line=48&#39;</span><span class="o">&gt;</span><span class="mi">49</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span> <span class="n">px</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+     <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s1">&#39;vscode-notebook-cell:/Users/sjoerdjt/Desktop/studies/Kunstmatige</span><span class="si">%20i</span><span class="s1">ntelligentie%20UvA/P6/project%20map/Info-Vis-Project/format_copy_20juni.ipynb#Y103sZmlsZQ%3D%3D?line=50&#39;</span><span class="o">&gt;</span><span class="mi">51</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span> <span class="c1"># Kleurenpalet aanpassen voor KDE plot</span>
+     <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s1">&#39;vscode-notebook-cell:/Users/sjoerdjt/Desktop/studies/Kunstmatige</span><span class="si">%20i</span><span class="s1">ntelligentie%20UvA/P6/project%20map/Info-Vis-Project/format_copy_20juni.ipynb#Y103sZmlsZQ%3D%3D?line=51&#39;</span><span class="o">&gt;</span><span class="mi">52</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span> <span class="n">palette</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Men&#39;</span><span class="p">:</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;Women&#39;</span><span class="p">:</span> <span class="s1">&#39;pink&#39;</span><span class="p">}</span>
+
+<span class="ne">AttributeError</span>: module &#39;plotly.express&#39; has no attribute &#39;figure&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+
+<span class="c1"># Laad de dataset</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;combined_cleaned_tennis_data.csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># Controleer op ontbrekende waarden in de kolommen &#39;winner_ht&#39; en &#39;loser_ht&#39;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;winner_ht&#39;</span><span class="p">,</span> <span class="s1">&#39;loser_ht&#39;</span><span class="p">])</span>
+
+<span class="c1"># Combineer de lengtekolommen voor winnaars en verliezers en voeg een kolom voor geslacht en resultaat toe</span>
+<span class="n">winner_heights</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;winner_ht&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;winner_ht&#39;</span><span class="p">:</span> <span class="s1">&#39;height&#39;</span><span class="p">})</span>
+<span class="n">winner_heights</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;win&#39;</span>
+
+<span class="n">loser_heights</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;loser_ht&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;loser_ht&#39;</span><span class="p">:</span> <span class="s1">&#39;height&#39;</span><span class="p">})</span>
+<span class="n">loser_heights</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;loss&#39;</span>
+
+<span class="c1"># Combineer de twee dataframes</span>
+<span class="n">heights_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">winner_heights</span><span class="p">,</span> <span class="n">loser_heights</span><span class="p">])</span>
+
+<span class="c1"># Definieer lengtegroepen</span>
+<span class="n">height_bins</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">210</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># Van 150cm tot 210cm met stappen van 5cm</span>
+<span class="n">heights_df</span><span class="p">[</span><span class="s1">&#39;height_group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">cut</span><span class="p">(</span><span class="n">heights_df</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">height_bins</span><span class="p">)</span>
+
+<span class="c1"># Bereken de winstpercentages per lengtegroep en geslacht</span>
+<span class="n">win_loss_counts</span> <span class="o">=</span> <span class="n">heights_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;height_group&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;result&#39;</span><span class="p">],</span> <span class="n">observed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">fill_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">win_loss_counts</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">win_loss_counts</span><span class="p">[</span><span class="s1">&#39;win&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">win_loss_counts</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">]</span>
+<span class="n">win_loss_counts</span><span class="p">[</span><span class="s1">&#39;win_percentage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">win_loss_counts</span><span class="p">[</span><span class="s1">&#39;win&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">win_loss_counts</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="c1"># Reset index en converteer height_group naar string</span>
+<span class="n">win_loss_counts</span> <span class="o">=</span> <span class="n">win_loss_counts</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">win_loss_counts</span><span class="p">[</span><span class="s1">&#39;height_group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">win_loss_counts</span><span class="p">[</span><span class="s1">&#39;height_group&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+
+<span class="c1"># Controleer op ontbrekende waarden in win_percentage</span>
+<span class="n">win_loss_counts</span><span class="p">[</span><span class="s1">&#39;win_percentage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">win_loss_counts</span><span class="p">[</span><span class="s1">&#39;win_percentage&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Verwijder eventuele ontbrekende waarden in de kolommen &#39;height_group&#39; en &#39;gender&#39; in heights_df</span>
+<span class="n">heights_df</span> <span class="o">=</span> <span class="n">heights_df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;height_group&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">])</span>
+
+<span class="c1"># Zorg ervoor dat height_group als string wordt behandeld in heights_df</span>
+<span class="n">heights_df</span><span class="p">[</span><span class="s1">&#39;height_group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">heights_df</span><span class="p">[</span><span class="s1">&#39;height_group&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+
+<span class="c1"># Maak een nieuwe DataFrame voor de gecombineerde visualisatie</span>
+<span class="n">combined_df</span> <span class="o">=</span> <span class="n">heights_df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">win_loss_counts</span><span class="p">[[</span><span class="s1">&#39;height_group&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;win_percentage&#39;</span><span class="p">]],</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;height_group&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+
+<span class="c1"># Maak de interactieve plot met Plotly</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">()</span>
+
+<span class="c1"># Voeg KDE plot toe voor lengteverdeling</span>
+<span class="k">for</span> <span class="n">gender</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;Men&#39;</span><span class="p">:</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;Women&#39;</span><span class="p">:</span> <span class="s1">&#39;pink&#39;</span><span class="p">}</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">gender_data</span> <span class="o">=</span> <span class="n">combined_df</span><span class="p">[</span><span class="n">combined_df</span><span class="p">[</span><span class="s1">&#39;gender&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">gender</span><span class="p">]</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Histogram</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">gender_data</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">],</span>
+        <span class="n">histnorm</span><span class="o">=</span><span class="s1">&#39;probability density&#39;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">gender</span><span class="si">}</span><span class="s1"> KDE&#39;</span><span class="p">,</span>
+        <span class="n">marker_color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+        <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span>
+    <span class="p">))</span>
+
+<span class="c1"># Voeg lijnplot toe voor winstpercentages met opvulling</span>
+<span class="k">for</span> <span class="n">gender</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;Men&#39;</span><span class="p">:</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;Women&#39;</span><span class="p">:</span> <span class="s1">&#39;pink&#39;</span><span class="p">}</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">gender_data</span> <span class="o">=</span> <span class="n">win_loss_counts</span><span class="p">[</span><span class="n">win_loss_counts</span><span class="p">[</span><span class="s1">&#39;gender&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">gender</span><span class="p">]</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">gender_data</span><span class="p">[</span><span class="s1">&#39;height_group&#39;</span><span class="p">],</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">gender_data</span><span class="p">[</span><span class="s1">&#39;win_percentage&#39;</span><span class="p">],</span>
+        <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines+markers&#39;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">gender</span><span class="si">}</span><span class="s1"> Win %&#39;</span><span class="p">,</span>
+        <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">dash</span><span class="o">=</span><span class="s1">&#39;dash&#39;</span><span class="p">),</span>
+        <span class="n">marker</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+    <span class="p">))</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Distributie van Lengte en Winstpercentage per Lengtegroep en Geslacht&#39;</span><span class="p">,</span>
+    <span class="n">xaxis_title</span><span class="o">=</span><span class="s1">&#39;Lengte (cm)&#39;</span><span class="p">,</span>
+    <span class="n">yaxis_title</span><span class="o">=</span><span class="s1">&#39;Dichtheid / Winstpercentage (%)&#39;</span><span class="p">,</span>
+    <span class="n">yaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">range</span><span class="o">=</span><span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">]),</span>
+    <span class="n">legend_title</span><span class="o">=</span><span class="s1">&#39;Geslacht&#39;</span><span class="p">,</span>
+    <span class="n">barmode</span><span class="o">=</span><span class="s1">&#39;overlay&#39;</span><span class="p">,</span>
+    <span class="n">template</span><span class="o">=</span><span class="s1">&#39;simple_white&#39;</span>
+<span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
 </section>
 </section>
 

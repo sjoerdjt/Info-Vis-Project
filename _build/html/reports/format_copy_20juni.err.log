@@ -45,12 +45,12 @@ Cell [0;32mIn[1], line 8[0m
 [1;32m     10[0m [38;5;66;03m# Gebruik matplotlib om de afbeelding te tonen[39;00m
 [1;32m     11[0m plt[38;5;241m.[39mimshow(image)
 
-File [0;32m/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/PIL/Image.py:3247[0m, in [0;36mopen[0;34m(fp, mode, formats)[0m
-[1;32m   3244[0m     filename [38;5;241m=[39m fp
-[1;32m   3246[0m [38;5;28;01mif[39;00m filename:
-[0;32m-> 3247[0m     fp [38;5;241m=[39m [43mbuiltins[49m[38;5;241;43m.[39;49m[43mopen[49m[43m([49m[43mfilename[49m[43m,[49m[43m [49m[38;5;124;43m"[39;49m[38;5;124;43mrb[39;49m[38;5;124;43m"[39;49m[43m)[49m
-[1;32m   3248[0m     exclusive_fp [38;5;241m=[39m [38;5;28;01mTrue[39;00m
-[1;32m   3250[0m [38;5;28;01mtry[39;00m:
+File [0;32m/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/PIL/Image.py:3243[0m, in [0;36mopen[0;34m(fp, mode, formats)[0m
+[1;32m   3240[0m     filename [38;5;241m=[39m fp
+[1;32m   3242[0m [38;5;28;01mif[39;00m filename:
+[0;32m-> 3243[0m     fp [38;5;241m=[39m [43mbuiltins[49m[38;5;241;43m.[39;49m[43mopen[49m[43m([49m[43mfilename[49m[43m,[49m[43m [49m[38;5;124;43m"[39;49m[38;5;124;43mrb[39;49m[38;5;124;43m"[39;49m[43m)[49m
+[1;32m   3244[0m     exclusive_fp [38;5;241m=[39m [38;5;28;01mTrue[39;00m
+[1;32m   3246[0m [38;5;28;01mtry[39;00m:
 
 [0;31mFileNotFoundError[0m: [Errno 2] No such file or directory: '../images/tennisveld.jpg'
 
