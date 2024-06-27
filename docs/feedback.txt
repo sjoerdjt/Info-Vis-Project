@@ -1,9 +1,0 @@
-- Voor de kaart: log schaal gebruiken of andere variabele gebruiken.
-- Voor de ondergrondplot: Een correlatie vinden tussen de plot en de rest van de opdracht/verhaal.
-- Voor barplot met landen: 
-    -Bijzetten hoeveel spelers er per land spelen. 
-    -Sommige afkortingen van landen verduidelijken.
-    -Alles zelfde kleur maken of 1 kleur per continent.
-- Voor voorkeurshandplot: Misschien mannen of vrouwen toevoegen.
-- Voor lengteplot: Rekening houden met het feit dat een bepaalde lengte veel vaker voorkomt dan andere lengtes.
-- Voor de inleiding: Gebruik maken van enkele wetenschappelijke bronnen (NOS artikelen over tennissers).
